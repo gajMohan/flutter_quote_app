@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import './user-list.dart';
 
 class SingleQuote extends StatelessWidget {
-  SingleQuote({Key key, this.quote, this.image, this.author}) : super(key: key);
-  final String quote;
+  SingleQuote({Key key, this.quoteUrl, this.image}) : super(key: key);
+  final String quoteUrl;
   final String image;
-  final String author;
 
-  Future<List<dynamic>> fetchData() async {
-    var url = Uri.parse(this.author);
+  Future<dynamic> fetchData() async {
+    var url = Uri.parse(this.quoteUrl);
     var result = await http.get(url);
-    return json.decode(result.body)['results'];
+    var quote = json.decode(result.body);
+    print(quote);
+    return quote;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context, new MaterialPageRoute(builder: (context) => UserList()));
+        },
+      ),
       body: Container(
-        child: FutureBuilder<List<dynamic>>(
+        child: FutureBuilder<dynamic>(
           future: fetchData(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             print(snapshot.data);
@@ -50,13 +58,13 @@ class SingleQuote extends StatelessWidget {
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
-                          Text('"' + this.quote + '"',
+                          Text('"' + snapshot.data['content'] + '"',
                               style: TextStyle(
                                 fontFamily: 'Raleway',
                                 color: Colors.white,
                                 fontSize: 55,
                               )),
-                          Text(this.author,
+                          Text(snapshot.data['author'],
                               style: TextStyle(
                                   fontFamily: 'Raleway',
                                   fontStyle: FontStyle.italic,

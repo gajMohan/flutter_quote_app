@@ -24,10 +24,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           fontFamily: 'Raleway'),
       home: SingleQuote(
-        quote:
-            "Once you replace negative thoughts with positive ones, you'll start having positive results.",
         image: 'images/test.jpg',
-        author: 'https://api.quotable.io/random',
+        quoteUrl: 'https://api.quotable.io/random',
       ),
     );
   }
