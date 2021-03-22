@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import './user-list.dart';
+import './category.dart';
 
-class SingleQuote extends StatelessWidget {
-  SingleQuote({Key key, this.quoteUrl, this.image}) : super(key: key);
-  final String quoteUrl;
-  final String image;
+class SingleQuote extends StatefulWidget {
+  @override
+  _CSingleQuoteState createState() => _CSingleQuoteState();
+}
 
+class _CSingleQuoteState extends State<SingleQuote> {
+  var tag = '';
   Future<dynamic> fetchData() async {
-    var url = Uri.parse(this.quoteUrl);
+    var url = Uri.parse('https://api.quotable.io/random?tags=' + tag);
     var result = await http.get(url);
     var quote = json.decode(result.body);
     print(quote);
@@ -20,9 +22,16 @@ class SingleQuote extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context, new MaterialPageRoute(builder: (context) => UserList()));
+        onPressed: () async {
+          var returnedTag = await Navigator.push(
+              context, new MaterialPageRoute(builder: (context) => Category()));
+          if (returnedTag is String) {
+            fetchData();
+            tag = returnedTag;
+            setState(() {
+              {}
+            });
+          }
         },
       ),
       body: Container(
@@ -40,13 +49,15 @@ class SingleQuote extends StatelessWidget {
                   return new Text('Error: ${snapshot.error}');
                 else {
                   print(snapshot);
+
                   return Container(
                     width: MediaQuery.of(context).size.width,
                     height: MediaQuery.of(context).size.height,
                     padding: EdgeInsets.all(16.0),
                     decoration: new BoxDecoration(
                       image: new DecorationImage(
-                        image: new AssetImage(this.image),
+                        image: NetworkImage(
+                            "https://source.unsplash.com/random?" + tag),
                         colorFilter: ColorFilter.mode(
                             Colors.black.withOpacity(1), BlendMode.dstATop),
                         fit: BoxFit.cover,

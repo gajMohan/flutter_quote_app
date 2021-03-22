@@ -21,12 +21,15 @@ class MyApp extends StatelessWidget {
           // or simply save your changes to "hot reload" in a Flutter IDE).
           // Notice that the counter didn't reset back to zero; the application
           // is not restarted.
+          primaryColor: Colors.white,
+          accentColor: Colors.black,
           primarySwatch: Colors.blue,
           fontFamily: 'Raleway'),
-      home: SingleQuote(
-        image: 'images/test.jpg',
-        quoteUrl: 'https://api.quotable.io/random',
+      darkTheme: ThemeData(
+        primaryColor: Colors.black,
+        accentColor: Colors.white,
       ),
+      home: SingleQuote(),
     );
   }
 }
