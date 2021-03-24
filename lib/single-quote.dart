@@ -21,18 +21,33 @@ class _CSingleQuoteState extends State<SingleQuote> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          var returnedTag = await Navigator.push(
-              context, new MaterialPageRoute(builder: (context) => Category()));
-          if (returnedTag is String) {
-            fetchData();
-            tag = returnedTag;
-            setState(() {
-              {}
-            });
-          }
-        },
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            backgroundColor: Theme.of(context).accentColor,
+            child: Icon(Icons.view_quilt),
+            onPressed: () async {
+              var returnedTag = await Navigator.push(context,
+                  new MaterialPageRoute(builder: (context) => Category()));
+              if (returnedTag is String) {
+                fetchData();
+                tag = returnedTag;
+                setState(() {
+                  {}
+                });
+              }
+            },
+          ),
+          FloatingActionButton(
+            child: Icon(Icons.refresh),
+            onPressed: () async {
+              setState(() {
+                {}
+              });
+            },
+          )
+        ],
       ),
       body: Container(
         child: FutureBuilder<dynamic>(

@@ -18,6 +18,14 @@ class Category extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: new AppBar(
+        title: new Text(
+          "Categories",
+          style: TextStyle(color: Theme.of(context).accentColor),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        elevation: 0.0,
+      ),
       body: Container(
         color: Theme.of(context).primaryColor,
         child: FutureBuilder<List<dynamic>>(
